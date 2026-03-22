@@ -1,14 +1,14 @@
-import { useHome, type Instrument } from "@/hooks/useHome";
+import { useHome, type Instrument } from "@/hooks/use-home";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    FlatList,
-    Image,
-    Modal,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 export default function Home() {

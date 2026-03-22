@@ -1,37 +1,36 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginScreen from "./login";
 
 // Mock the useLogin hook
-vi.mock("@/hooks/useLogin", () => ({
-  useLogin: vi.fn(() => ({
+jest.mock("@/hooks/use-login", () => ({
+  useLogin: jest.fn(() => ({
     control: {},
     errors: {},
-    onLogin: vi.fn(),
+    onLogin: jest.fn(),
   })),
 }));
 
 // Mock expo-router
-vi.mock("expo-router", () => ({
-  useRouter: vi.fn(() => ({
-    replace: vi.fn(),
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(() => ({
+    replace: jest.fn(),
   })),
 }));
 
 // Mock Alert
-vi.mock("react-native", async () => {
-  const actual = await vi.importActual("react-native");
+jest.mock("react-native", () => {
+  const actual = jest.requireActual("react-native");
   return {
     ...actual,
     Alert: {
-      alert: vi.fn(),
+      alert: jest.fn(),
     },
   };
 });
 
 describe("LoginScreen", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it("renders login form correctly", () => {
@@ -61,8 +60,8 @@ describe("LoginScreen", () => {
   });
 
   it("calls onLogin when login button is pressed", () => {
-    const mockOnLogin = vi.fn();
-    const { useLogin } = require("@/hooks/useLogin");
+    const mockOnLogin = jest.fn();
+    const { useLogin } = require("@/hooks/use-login");
     useLogin.mockReturnValue({
       control: {},
       errors: {},

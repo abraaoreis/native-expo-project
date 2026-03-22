@@ -4,12 +4,11 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react-native";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import Home from "./home";
 
 // Mock the useHome hook
-vi.mock("@/hooks/useHome", () => ({
-  useHome: vi.fn(() => ({
+jest.mock("@/hooks/use-home", () => ({
+  useHome: jest.fn(() => ({
     instruments: [
       {
         id: 1,
@@ -28,28 +27,28 @@ vi.mock("@/hooks/useHome", () => ({
         image: "https://example.com/piano.jpg",
       },
     ],
-    loadMore: vi.fn(),
+    loadMore: jest.fn(),
     hasMore: true,
   })),
 }));
 
 // Mock expo-router
-vi.mock("expo-router", () => ({
-  useRouter: vi.fn(() => ({
-    replace: vi.fn(),
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(() => ({
+    replace: jest.fn(),
   })),
 }));
 
 describe("Home", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it("renders home screen correctly", () => {
     render(<Home />);
 
-    expect(screen.getByText("Home")).toBeTruthy();
-    expect(screen.getByText("Sair")).toBeTruthy();
+    expect(screen.getByText("Inicio")).toBeTruthy();
+    expect(screen.getByText("Salir")).toBeTruthy();
     expect(screen.getByText("Guitarra Acústica")).toBeTruthy();
     expect(screen.getByText("Piano Digital")).toBeTruthy();
   });
@@ -70,8 +69,8 @@ describe("Home", () => {
     fireEvent.press(instrumentItem);
 
     await waitFor(() => {
-      expect(screen.getByText("Detalhes do Instrumento")).toBeTruthy();
-      expect(screen.getByText("Nome: Guitarra Acústica")).toBeTruthy();
+      expect(screen.getByText("Detalles del Instrumento")).toBeTruthy();
+      expect(screen.getByText("Nombre: Guitarra Acústica")).toBeTruthy();
       expect(screen.getByText("Tipo: Cordas")).toBeTruthy();
       expect(screen.getByText("Marca: Yamaha")).toBeTruthy();
       expect(screen.getByText("Preço: R$ 1.200,00")).toBeTruthy();
@@ -85,27 +84,27 @@ describe("Home", () => {
     fireEvent.press(instrumentItem);
 
     await waitFor(() => {
-      expect(screen.getByText("Detalhes do Instrumento")).toBeTruthy();
+      expect(screen.getByText("Detalles del Instrumento")).toBeTruthy();
     });
 
-    const closeButton = screen.getByText("Fechar");
+    const closeButton = screen.getByText("Cerrar");
     fireEvent.press(closeButton);
 
     await waitFor(() => {
-      expect(screen.queryByText("Detalhes do Instrumento")).toBeNull();
+      expect(screen.queryByText("Detalles del Instrumento")).toBeNull();
     });
   });
 
   it("calls router.replace when logout is pressed", () => {
     const { useRouter } = require("expo-router");
-    const mockReplace = vi.fn();
+    const mockReplace = jest.fn();
     useRouter.mockReturnValue({
       replace: mockReplace,
     });
 
     render(<Home />);
 
-    const logoutButton = screen.getByText("Sair");
+    const logoutButton = screen.getByText("Salir");
     fireEvent.press(logoutButton);
 
     expect(mockReplace).toHaveBeenCalledWith("/Login");
@@ -114,19 +113,19 @@ describe("Home", () => {
   it("displays loading footer when hasMore is true", () => {
     render(<Home />);
 
-    expect(screen.getByText("Carregando mais...")).toBeTruthy();
+    expect(screen.getByText("Cargando más...")).toBeTruthy();
   });
 
   it("displays loaded footer when hasMore is false", () => {
-    const { useHome } = require("@/hooks/useHome");
+    const { useHome } = require("@/hooks/use-home");
     useHome.mockReturnValue({
       instruments: [],
-      loadMore: vi.fn(),
+      loadMore: jest.fn(),
       hasMore: false,
     });
 
     render(<Home />);
 
-    expect(screen.getByText("Todos os itens carregados")).toBeTruthy();
+    expect(screen.getByText("Todos los elementos cargados")).toBeTruthy();
   });
 });
