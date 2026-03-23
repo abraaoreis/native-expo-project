@@ -4,7 +4,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react-native";
-import Home from "./home";
+import Home from "../../app/Home/home";
 
 // Mock the useHome hook
 jest.mock("@/hooks/use-home", () => ({

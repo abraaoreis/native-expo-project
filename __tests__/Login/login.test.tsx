@@ -6,7 +6,7 @@ import {
 } from "@testing-library/react-native";
 import React from "react";
 import { Alert } from "react-native";
-import LoginScreen from "./login";
+import LoginScreen from "../../app/Login/login";
 
 // Mock expo-router
 jest.mock("expo-router", () => ({
