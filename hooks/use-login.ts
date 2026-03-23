@@ -27,6 +27,10 @@ export function useLogin() {
     watch,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const email = watch("email") || "";
